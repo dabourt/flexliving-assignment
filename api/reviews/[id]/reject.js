@@ -1,15 +1,17 @@
-import { readApproved, writeApproved } from "../../../_lib/githubStore.js";
+import { writeApproved, readApproved } from "../../_lib/githubStore.js";
 
 export default async function handler(req, res) {
   if (req.method !== "POST") return res.status(405).json({ message: "Method not allowed" });
-  const { id } = req.query || {};
-  if (!id) return res.status(400).json({ message: "Missing id" });
 
   try {
-    const approved = await readApproved();
-    const filtered = (approved || []).map(String).filter(x => x !== String(id));
-    await writeApproved(filtered);
-    return res.status(200).json({ message: `Review ${id} rejected`, approved: filtered });
+    const { id } = req.query;
+    let approved = await readApproved() || [];
+
+    // remove id if exists
+    approved = approved.filter(rid => String(rid) !== String(id));
+    await writeApproved(approved);
+
+    return res.status(200).json({ message: `Review ${id} rejected`, approved });
   } catch (err) {
     console.error(err);
     return res.status(500).json({ error: err.message });
