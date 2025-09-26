@@ -6,4 +6,9 @@ app.use(express.json());
 
 app.use("/api/reviews", reviewsRouter);
 
-app.listen(3000, () => console.log("Backend running on http://localhost:3000"));
+// Render (or any hosting) provides PORT in env vars
+const PORT = process.env.PORT || 3000;
+
+app.listen(PORT, () => {
+  console.log(`Backend running on http://localhost:${PORT}`);
+});
