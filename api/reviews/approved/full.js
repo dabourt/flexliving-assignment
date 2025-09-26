@@ -1,17 +1,17 @@
-import { normalizeReviews } from "../../_lib/normalize.js";
-import mockData from "../../_data/mock_reviews.json" assert { type: "json" };
-import { readApproved } from "../../_lib/githubStore.js";
+import { readFileSync } from "fs";
+import path from "path";
 
-export default async function handler(req, res) {
-  if (req.method !== "GET") return res.status(405).json({ message: "Method not allowed" });
+export default function handler(req, res) {
+  if (req.method !== "GET") {
+    return res.status(405).json({ message: "Method not allowed" });
+  }
+
   try {
-    const normalized = normalizeReviews(mockData);
-    const approved = await readApproved(); // array of ids (strings or numbers)
-    const approvedSet = new Set((approved || []).map(String));
-    const filtered = normalized.filter(r => approvedSet.has(String(r.reviewId)));
-    return res.status(200).json({ reviews: filtered });
+    const filePath = path.join(process.cwd(), "backend/src/data/approved_reviews.json");
+    const approved = JSON.parse(readFileSync(filePath, "utf-8"));
+    return res.status(200).json(approved);
   } catch (err) {
     console.error(err);
-    return res.status(500).json({ error: err.message });
+    return res.status(200).json([]); // fallback لو مفيش داتا
   }
 }

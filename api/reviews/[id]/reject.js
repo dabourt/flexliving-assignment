@@ -1,19 +1,21 @@
-import { writeApproved, readApproved } from "../../_lib/githubStore.js";
+import { readFileSync, writeFileSync } from "fs";
+import path from "path";
 
-export default async function handler(req, res) {
-  if (req.method !== "POST") return res.status(405).json({ message: "Method not allowed" });
-
-  try {
-    const { id } = req.query;
-    let approved = await readApproved() || [];
-
-    // remove id if exists
-    approved = approved.filter(rid => String(rid) !== String(id));
-    await writeApproved(approved);
-
-    return res.status(200).json({ message: `Review ${id} rejected`, approved });
-  } catch (err) {
-    console.error(err);
-    return res.status(500).json({ error: err.message });
+export default function handler(req, res) {
+  if (req.method !== "POST") {
+    return res.status(405).json({ message: "Method not allowed" });
   }
+
+  const { id } = req.query;
+  const filePath = path.join(process.cwd(), "backend/src/data/approved_reviews.json");
+
+  let approved = [];
+  try {
+    approved = JSON.parse(readFileSync(filePath, "utf-8"));
+  } catch {}
+
+  approved = approved.filter((r) => r !== id);
+  writeFileSync(filePath, JSON.stringify(approved, null, 2));
+
+  return res.status(200).json({ success: true, approved });
 }
