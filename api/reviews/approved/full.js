@@ -1,16 +1,24 @@
-import mockData from "../../../_data/mock_reviews.json" assert { type: "json" };
+import mockData from "../../_data/mock_reviews.json" assert { type: "json" };
+import { normalizeReviews } from "../../_lib/normalize.js";
+import { readApproved } from "../../_lib/githubStore.js";
 
-let approved = [];
-
-export default function handler(req, res) {
+export default async function handler(req, res) {
   if (req.method !== "GET") {
     return res.status(405).json({ message: "Method not allowed" });
   }
 
-  const approvedSet = new Set(approved.map(String));
-  const filtered = mockData.result.filter((r) =>
-    approvedSet.has(String(r.id))
-  );
+  try {
+    const normalized = normalizeReviews(mockData.result || []);
+    const approved = await readApproved();
+    const approvedSet = new Set((approved || []).map(String));
 
-  return res.status(200).json({ reviews: filtered });
+    const filtered = normalized.filter(r =>
+      approvedSet.has(String(r.reviewId))
+    );
+
+    return res.status(200).json({ reviews: filtered });
+  } catch (err) {
+    console.error(err);
+    return res.status(500).json({ error: err.message });
+  }
 }
