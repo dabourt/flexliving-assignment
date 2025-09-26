@@ -1,4 +1,4 @@
-import mockData from "../../backend/src/data/mock_reviews.json" assert { type: "json" };
+import mockData from "../../_data/mock_reviews.json" assert { type: "json" };
 
 export default function handler(req, res) {
   if (req.method !== "GET") {
