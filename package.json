@@ -1,5 +1,0 @@
-{
-  "name": "flexliving-root",
-  "private": true,
-  "workspaces": ["frontend"]
-}
