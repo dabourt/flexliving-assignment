@@ -1,13 +1,18 @@
-const mockData = require("./mock_reviews.json");
-const { normalizeReviews } = require("../_lib/normalize.js");
+import { normalizeReviews } from "../_lib/normalize.js";
 
-module.exports = async function handler(req, res) {
+export async function getMockReviews() {
+  const res = await fetch('/mock_reviews.json');
+  return res.json();
+}
+
+export default async function handler(req, res) {
   if (req.method !== "GET") {
     return res.status(405).json({ message: "Method not allowed" });
   }
 
   try {
-    const normalized = normalizeReviews(mockData.result || []);
+    const reviews = await getMockReviews();
+    const normalized = normalizeReviews(reviews || []);
     return res.status(200).json({ reviews: normalized });
   } catch (err) {
     return res.status(500).json({ error: err.message });
