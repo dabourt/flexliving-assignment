@@ -1,4 +1,4 @@
-import mockData from "../_data/mock_reviews.json" assert { type: "json" };
+import mockData from "../_data/mock_reviews.json" with { type: "json" };
 
 export default async function handler(req, res) {
   if (req.method !== "GET") {

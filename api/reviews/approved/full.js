@@ -1,4 +1,4 @@
-import mockData from "../../_data/mock_reviews.json" assert { type: "json" };
+import mockData from "../../_data/mock_reviews.json" with { type: "json" };
 import { normalizeReviews } from "../../_lib/normalize.js";
 import { readApproved } from "../../_lib/githubStore.js";
 
