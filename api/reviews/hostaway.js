@@ -1,4 +1,4 @@
-import mockData from "../_data/mock_reviews.json" assert { type: "json" };
+import mockData from "./mock_reviews.json" assert { type: "json" };
 import { normalizeReviews } from "../_lib/normalize.js";
 
 export default async function handler(req, res) {
