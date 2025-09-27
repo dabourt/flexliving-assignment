@@ -1,4 +1,5 @@
-import mockData from "../_data/mock_reviews.json" with { type: "json" };
+import mockData from "../../_data/mock_reviews.json" with { type: "json" };
+import { normalizeReviews } from "../../_lib/normalize.js";
 
 export default async function handler(req, res) {
   if (req.method !== "GET") {
@@ -6,8 +7,10 @@ export default async function handler(req, res) {
   }
 
   try {
-    return res.status(200).json({ reviews: mockData.result || [] });
+    const normalized = normalizeReviews(mockData.result || []);
+    return res.status(200).json({ reviews: normalized });
   } catch (err) {
+    console.error("Handler error:", err);
     return res.status(500).json({ error: err.message });
   }
 }

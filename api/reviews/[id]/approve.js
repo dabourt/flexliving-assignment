@@ -1,4 +1,4 @@
-import { readApproved, writeApproved } from "../../_lib/githubStore.js";
+import { readApproved, writeApproved } from "../../../_lib/githubStore.js";
 
 export default async function handler(req, res) {
   if (req.method !== "POST") {

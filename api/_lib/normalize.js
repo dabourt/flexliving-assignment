@@ -11,6 +11,6 @@ export function normalizeReviews(rawReviews) {
     ),
     reviewText: r.publicReview,
     submittedAt: new Date(r.submittedAt).toISOString(),
-    channel: "hostaway",
+    channel: "hostaway"
   }));
 }
