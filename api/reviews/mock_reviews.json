@@ -1,0 +1,6 @@
+{
+  "status": "success",
+  "result": [
+    { "id": 7453, "type": "host-to-guest" }
+  ]
+}
