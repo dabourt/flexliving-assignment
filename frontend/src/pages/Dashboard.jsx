@@ -5,25 +5,28 @@ import ReviewCard from "../components/ReviewCard.jsx";
 export default function Dashboard() {
   const [reviews, setReviews] = useState([]);
 
+  const fetchReviews = async () => {
+    const data = await getAllReviews();
+    console.log("Fetched reviews:", data);
+    setReviews(data.reviews || []);
+  };
+
   useEffect(() => {
-    getAllReviews().then((data) => {
-      console.log("Fetched reviews:", data);
-      setReviews(data.reviews || []);
-    });
+    fetchReviews();
   }, []);
 
   const handleApprove = async (id) => {
     await approveReview(id);
-    alert(`Approved review ${id}`);
+    await fetchReviews(); // refresh the list after approval
   };
 
   const handleReject = async (id) => {
     await rejectReview(id);
-    alert(`Rejected review ${id}`);
+    await fetchReviews(); // refresh the list after rejection
   };
 
   return (
-    <div>
+    <div className="p-6">
       <h1 className="text-2xl font-bold mb-4">Dashboard</h1>
       {reviews.length === 0 && <p>No reviews found.</p>}
       {reviews.map((r) => (

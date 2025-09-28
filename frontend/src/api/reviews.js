@@ -1,6 +1,7 @@
 import axios from "axios";
 
-const API_BASE = "https://flex-living-backend-65.vercel.app/api/reviews";
+const API_BASE =
+  import.meta.env.VITE_API_BASE || "http://localhost:3000/api/reviews";
 
 export function getAllReviews() {
   return axios.get(`${API_BASE}/hostaway`).then((res) => res.data);
