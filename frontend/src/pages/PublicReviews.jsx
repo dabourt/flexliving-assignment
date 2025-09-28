@@ -7,7 +7,7 @@ export default function PublicReviews() {
 
   useEffect(() => {
     getApprovedReviews().then((data) => {
-      console.log("Fetched approved reviews:", data);
+      console.log("Approved reviews:", data);
       setReviews(data.reviews || []);
     });
   }, []);
@@ -17,7 +17,7 @@ export default function PublicReviews() {
       <h1 className="text-2xl font-bold mb-4">Public Reviews</h1>
       {reviews.length === 0 && <p>No approved reviews yet.</p>}
       {reviews.map((r) => (
-        <ReviewCard key={r.reviewId} review={r} />
+        <ReviewCard key={r.reviewId} review={r} readOnly />
       ))}
     </div>
   );

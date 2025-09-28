@@ -6,11 +6,15 @@ export default function App() {
   const [page, setPage] = useState("dashboard");
 
   return (
-    <div className="min-h-screen bg-gray-100">
-      <nav className="bg-blue-600 text-white p-4 flex gap-4">
-        <button onClick={() => setPage("dashboard")}>Dashboard</button>
-        <button onClick={() => setPage("public")}>Public Reviews</button>
-      </nav>
+    <div className="p-6">
+      <div className="flex space-x-4 mb-4">
+        <button onClick={() => setPage("dashboard")} className="px-4 py-2 bg-gray-800 text-white rounded">
+          Dashboard
+        </button>
+        <button onClick={() => setPage("public")} className="px-4 py-2 bg-gray-800 text-white rounded">
+          Public Reviews
+        </button>
+      </div>
 
       {page === "dashboard" && <Dashboard />}
       {page === "public" && <PublicReviews />}

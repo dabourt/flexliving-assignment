@@ -23,7 +23,7 @@ export default function Dashboard() {
   };
 
   return (
-    <div className="p-6">
+    <div>
       <h1 className="text-2xl font-bold mb-4">Dashboard</h1>
       {reviews.length === 0 && <p>No reviews found.</p>}
       {reviews.map((r) => (
