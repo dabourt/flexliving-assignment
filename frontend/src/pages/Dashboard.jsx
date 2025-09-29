@@ -27,7 +27,7 @@ export default function Dashboard() {
       const res = await approveReview(id);
       console.log("Approve response:", res);
       setMessage(`✅ Review ${id} approved`);
-      await fetchReviews(); // refresh list
+      await fetchReviews();
     } catch (err) {
       console.error("Approve error:", err);
       setMessage(`❌ Failed to approve review ${id}`);
@@ -42,7 +42,7 @@ export default function Dashboard() {
       const res = await rejectReview(id);
       console.log("Reject response:", res);
       setMessage(`🚫 Review ${id} rejected`);
-      await fetchReviews(); // refresh list
+      await fetchReviews();
     } catch (err) {
       console.error("Reject error:", err);
       setMessage(`❌ Failed to reject review ${id}`);
@@ -52,25 +52,33 @@ export default function Dashboard() {
   };
 
   return (
-    <div className="p-6">
-      <h1 className="text-2xl font-bold mb-4">Dashboard</h1>
+    <div className="min-h-screen bg-gray-50 p-8">
+      <h1 className="text-3xl font-bold mb-6 text-gray-800">📊 Dashboard</h1>
 
       {message && (
-        <div className="mb-4 p-2 bg-gray-100 border rounded">{message}</div>
+        <div className="mb-4 p-3 bg-blue-50 border border-blue-200 rounded-lg text-blue-800 shadow-sm">
+          {message}
+        </div>
       )}
 
-      {loading && <p className="mb-2">⏳ Processing...</p>}
+      {loading && (
+        <p className="mb-4 text-gray-600 animate-pulse">⏳ Processing...</p>
+      )}
 
-      {reviews.length === 0 && <p>No reviews found.</p>}
+      {reviews.length === 0 && (
+        <p className="text-gray-500">No reviews found.</p>
+      )}
 
-      {reviews.map((r) => (
-        <ReviewCard
-          key={r.reviewId}
-          review={r}
-          onApprove={handleApprove}
-          onReject={handleReject}
-        />
-      ))}
+      <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+        {reviews.map((r) => (
+          <ReviewCard
+            key={r.reviewId}
+            review={r}
+            onApprove={handleApprove}
+            onReject={handleReject}
+          />
+        ))}
+      </div>
     </div>
   );
 }
