@@ -6,18 +6,40 @@ export default function App() {
   const [page, setPage] = useState("dashboard");
 
   return (
-    <div className="p-6">
-      <div className="flex space-x-4 mb-4">
-        <button onClick={() => setPage("dashboard")} className="px-4 py-2 bg-gray-800 text-white rounded">
-          Dashboard
-        </button>
-        <button onClick={() => setPage("public")} className="px-4 py-2 bg-gray-800 text-white rounded">
-          Public Reviews
-        </button>
-      </div>
+    <div className="min-h-screen bg-gray-100">
+      {/* ✅ Navbar */}
+      <nav className="bg-emerald-600 text-white shadow-md">
+        <div className="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
+          {/* Logo */}
+          <h1 className="text-2xl font-bold tracking-wide">FlexLiving</h1>
 
-      {page === "dashboard" && <Dashboard />}
-      {page === "public" && <PublicReviews />}
+          {/* Links */}
+          <div className="flex gap-6 text-lg">
+            <button
+              onClick={() => setPage("dashboard")}
+              className={`transition-colors duration-200 ${
+                page === "dashboard" ? "font-semibold text-emerald-200" : "hover:text-emerald-200"
+              }`}
+            >
+              Dashboard
+            </button>
+            <button
+              onClick={() => setPage("public")}
+              className={`transition-colors duration-200 ${
+                page === "public" ? "font-semibold text-emerald-200" : "hover:text-emerald-200"
+              }`}
+            >
+              Public Reviews
+            </button>
+          </div>
+        </div>
+      </nav>
+
+      {/* ✅ Pages */}
+      <main className="p-6">
+        {page === "dashboard" && <Dashboard />}
+        {page === "public" && <PublicReviews />}
+      </main>
     </div>
   );
 }
